@@ -4,6 +4,9 @@ import cv2
 import pyrender
 import trimesh
 import copy
+
+os.environ['PYOPENGL_PLATFORM'] = 'egl'
+
 # 这个顺序是BGR的。虽然render的使用的是RGB的，但是由于和图像拼接了，所以又变成BGR的了
 colors = [
     # (0.5, 0.2, 0.2, 1.),  # Defalut BGR
