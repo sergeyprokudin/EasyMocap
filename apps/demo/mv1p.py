@@ -13,6 +13,8 @@ import os
 from os.path import join
 import numpy as np
 
+os.environ['PYOPENGL_PLATFORM'] = 'egl'
+
 def check_repro_error(keypoints3d, kpts_repro, keypoints2d, P, MAX_REPRO_ERROR):
     square_diff = (keypoints2d[:, :, :2] - kpts_repro[:, :, :2])**2 
     conf = keypoints3d[None, :, -1:]
