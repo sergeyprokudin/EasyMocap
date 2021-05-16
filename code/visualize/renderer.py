@@ -109,10 +109,11 @@ class Renderer(object):
             np.radians(180), [1, 0, 0])
         output_images, output_colors, output_depths = [], [], []
         for nv, img_ in enumerate(images):
-            if use_white:
-                img = np.zeros_like(img_, dtype=np.uint8) + 255
-            else:
-                img = img_.copy()
+#             if use_white:
+#                 img = np.zeros_like(img_, dtype=np.uint8) + 255
+#             else:
+#                 img = img_.copy()
+            img = np.zeros_like(img_, dtype=np.uint8) + 255
             K, R, T = cameras['K'][nv].copy(), cameras['R'][nv], cameras['T'][nv]
             # down scale the image to speed up rendering
             img = cv2.resize(img, None, fx=1/self.down_scale, fy=1/self.down_scale)
@@ -157,16 +158,17 @@ class Renderer(object):
             # Alpha channel was not working previously need to check again
             # Until this is fixed use hack with depth image to get the opacity
             rend_rgba, rend_depth = self.renderer.render(scene, flags=flags)
-            if rend_rgba.shape[2] == 3: # fail to generate transparent channel
-                valid_mask = (rend_depth > 0)[:, :, None]
-                rend_rgba = np.dstack((rend_rgba, (valid_mask*255).astype(np.uint8)))
-            if add_back:
-                rend_cat = cv2.addWeighted(
-                    cv2.bitwise_and(img, 255 - rend_rgba[:, :, 3:4].repeat(3, 2)), 1, 
-                    cv2.bitwise_and(rend_rgba[:, :, :3], rend_rgba[:, :, 3:4].repeat(3, 2)), 1, 0)
-            else:
-                rend_cat = rend_rgba
+#             if rend_rgba.shape[2] == 3: # fail to generate transparent channel
+#                 valid_mask = (rend_depth > 0)[:, :, None]
+#                 rend_rgba = np.dstack((rend_rgba, (valid_mask*255).astype(np.uint8)))
+#             if add_back:
+#                 rend_cat = cv2.addWeighted(
+#                     cv2.bitwise_and(img, 255 - rend_rgba[:, :, 3:4].repeat(3, 2)), 1, 
+#                     cv2.bitwise_and(rend_rgba[:, :, :3], rend_rgba[:, :, 3:4].repeat(3, 2)), 1, 0)
+#             else:
+#                 rend_cat = rend_rgba
             
+            rend_cat = rend_rgba
             output_colors.append(rend_rgba)
             output_depths.append(rend_depth)
             output_images.append(rend_cat)
