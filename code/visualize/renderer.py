@@ -102,7 +102,7 @@ class Renderer(object):
         scene.add(light, pose=light_pose)
 
     def render(self, render_data, cameras, images,
-        use_white=True, add_back=True,
+        use_white=True, add_back=False,
         ret_depth=False, ret_color=False):
         # Need to flip x-axis
         rot = trimesh.transformations.rotation_matrix(
