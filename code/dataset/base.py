@@ -96,7 +96,7 @@ class FileWriter:
         self.basenames = basenames
         if cfg is not None:
             print(cfg, file=open(join(output_path, 'exp.yml'), 'w'))
-        self.save_origin = False
+        self.save_origin = True
         self.config = config
     
     def write_keypoints3d(self, results, nf):
