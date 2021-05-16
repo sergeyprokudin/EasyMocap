@@ -328,14 +328,16 @@ class VideoBase(Dataset):
             # VV = Rc(Rnew @ V0 - Rnew @ center + new_center) + Tc
             #    = Rc@Rnew @ V0 + Rc @ (new_center - Rnew@center) + Tc
             blank = np.zeros_like(image, dtype=np.uint8) + 255
-            images = [image, blank]
+            #images = [image, blank]
+            images = [blank]
             Rnew = camera['R'][0] @ rot
             Tnew = camera['R'][0] @ (new_center.T - rot @ center.T) + camera['T'][0]
             camera['K'] = np.vstack([camera['K'], camera['K']])
             camera['R'] = np.vstack([camera['R'], Rnew[None, :, :]])
             camera['T'] = np.vstack([camera['T'], Tnew[None, :, :]])
         else:
-            images = [image]
+            blank = np.zeros_like(image, dtype=np.uint8) + 255
+            images = [blank]
         self.writer.vis_smpl(render_data, nf, images, camera, mode, add_back=add_back)
 
 class MVBase(Dataset):
